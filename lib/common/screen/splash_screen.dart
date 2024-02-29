@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/common/const/color.dart';
 import 'package:todo_list/common/layout/default_layout.dart';
 import 'package:todo_list/common/screen/root_tab.dart';
+import 'package:todo_list/user/provider/user_me_provider.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends ConsumerStatefulWidget {
+  static String get routeName => 'splash';
+
   const SplashScreen({super.key});
 
+  @override
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
@@ -34,14 +43,7 @@ class SplashScreen extends StatelessWidget {
                   backgroundColor: Colors.white,
                   fixedSize: const Size(160, 50),
                 ),
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) {
-                      return RootTab();
-                    }),
-                    (route) => false,
-                  );
-                },
+                onPressed: login,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -64,5 +66,23 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> login() async {
+    final user = await ref.read(userMeProvider.notifier).login();
+
+    print('login START1111111!!!');
+    print('user Login : $user');
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "로그인에 실패했습니다.",
+          ),
+        ),
+      );
+    }
+
+    print('login START2222222!!!');
   }
 }
