@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/http.dart';
 import 'package:todo_list/common/const/data.dart';
 import 'package:todo_list/common/model/cursor_pagination_model.dart';
+import 'package:todo_list/todo/model/todo_category_model.dart';
 import 'package:todo_list/todo/model/todo_list_model.dart';
 import 'package:todo_list/todo/model/todo_model.dart';
 import 'package:todo_list/dio/dio.dart';
@@ -12,6 +13,7 @@ part 'todo_repository.g.dart';
 final todoRepositoryProvider = Provider((ref) {
   final dio = ref.read(dioProvider);
   final repository = TodoRepository(dio, baseUrl: 'http://$ip/todo');
+  print('todoRepositoryProvider START!!');
 
   return repository;
 });
@@ -30,6 +32,14 @@ abstract class TodoRepository {
     },
   )
   Future<TodoListModel> paginate(
+    @Body() Map<String, dynamic> param,
+  );
+
+  @POST('/category/register')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<CursorPagination<TodoCategoryModel>> categoryRegister(
     @Body() Map<String, dynamic> param,
   );
 }

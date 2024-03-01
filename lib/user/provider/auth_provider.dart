@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/common/screen/root_tab.dart';
 import 'package:todo_list/common/screen/splash_screen.dart';
+import 'package:todo_list/todo/screen/todo_category_register_screen.dart';
 import 'package:todo_list/user/model/user_model.dart';
 import 'package:todo_list/user/provider/user_me_provider.dart';
 import 'package:go_router/go_router.dart';
@@ -34,6 +35,11 @@ class AuthProvider extends ChangeNotifier {
               path: 'splash',
               name: SplashScreen.routeName,
               builder: (_, __) => const SplashScreen(),
+            ),
+            GoRoute(
+              path: 'categoryCreate',
+              name: TodoCategoryRegisterScreen.routeName,
+              builder: (_, __) => const TodoCategoryRegisterScreen(),
             ),
           ],
         ),

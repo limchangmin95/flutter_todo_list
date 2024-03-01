@@ -12,10 +12,13 @@ final todoProvider =
     StateNotifierProvider<TodoStateNotifier, TodoListModel>((ref) {
   final user = GoogleSignRepository.currentUser();
   final repository = ref.watch(todoRepositoryProvider);
+
   final notifier = TodoStateNotifier(
     repository: repository,
-    id: '11111',
+    id: user!.id,
   );
+
+  print('todoProvider : $notifier');
 
   return notifier;
 });
@@ -39,12 +42,13 @@ class TodoStateNotifier extends StateNotifier<TodoListModel> {
             ),
           ),
         ) {
+    print('11111111');
     paginate(
       id: id,
     );
   }
 
-  Future<void> paginate({
+  void paginate({
     required String id,
   }) async {
     final resp = await repository.paginate(
